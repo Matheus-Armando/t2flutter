@@ -21,10 +21,10 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: <Widget>[
             TextFormField(
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(labelText: 'Usuário'),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'O e-mail não pode estar vazio';
+                  return 'O campo usuário não pode estar vazio';
                 }
                 return null;
               },

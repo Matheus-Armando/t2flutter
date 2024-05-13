@@ -101,7 +101,6 @@ class _SchedulingPageState extends State<SchedulingPage> {
                           ),
                         );
                       } else {
-                        // This time is not scheduled yet. Show the scheduling dialog.
                         TextEditingController _controller =
                             TextEditingController();
                         bool confirm = await showDialog(
@@ -132,10 +131,9 @@ class _SchedulingPageState extends State<SchedulingPage> {
                                 onPressed: () {
                                   String patientName = _controller.text;
                                   Navigator.of(context).pop(patientName
-                                      .isNotEmpty); // Confirm only if patient name is not empty
+                                      .isNotEmpty); 
                                   if (patientName.isNotEmpty) {
                                     setState(() {
-                                      // Add this
                                       scheduledAppointments.add({
                                         'time': time,
                                         'date': selectedDate
@@ -143,7 +141,7 @@ class _SchedulingPageState extends State<SchedulingPage> {
                                             .substring(0, 10),
                                         'patientName': patientName,
                                       });
-                                    }); // And this
+                                    }); 
                                   }
                                 },
                               ),

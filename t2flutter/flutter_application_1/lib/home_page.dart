@@ -26,37 +26,74 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('HomePage'),
+        title: Text('Home Page'),
         automaticallyImplyLeading: false,
       ),
-      body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'Olá, $username',
-            style: TextStyle(fontSize: 24),
-          ),
-          ElevatedButton(
-            child: Text('Agendamento de Consultas'),
-            onPressed: () {
-              Navigator.pushNamed(context, '/scheduling');
-            },
-          ),
-          ElevatedButton(
-            child: Text('Histórico de Pacientes'),
-            onPressed: () {
-              Navigator.pushNamed(context, '/history');
-            },
-          ),
-          ElevatedButton(
-            child: Text('Perfil do Médico'),
-            onPressed: () {
-              Navigator.pushNamed(context, '/profile');
-            },
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: Text(
+              'Olá, $username',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ],
-        ),
+          ),
+          Container(
+            height: 400,
+            width: 400,
+            child: Image.asset('images/home.jpg', fit: BoxFit.cover),
+          ),
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 300,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(250, 50),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/scheduling');
+                      },
+                      child: Text('Agendamento de Consultas'),
+                    ),
+                  ),
+                  SizedBox(height: 20), // Adiciona espaço entre os botões
+                  Container(
+                    width: 300,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(250, 50),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/history');
+                      },
+                      child: Text('Histórico de Pacientes'),
+                    ),
+                  ),
+                  SizedBox(height: 20), // Adiciona espaço entre os botões
+                  Container(
+                    width: 300,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(250, 50),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/profile');
+                      },
+                      child: Text('Perfil do Médico'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

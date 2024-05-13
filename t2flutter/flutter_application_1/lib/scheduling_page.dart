@@ -56,9 +56,21 @@ class _SchedulingPageState extends State<SchedulingPage> {
               child: ListView.builder(
                 itemCount: availableTimes.length,
                 itemBuilder: (context, index) {
+                  String time = availableTimes[index];
+                  Map<String, dynamic> appointment =
+                      scheduledAppointments.firstWhere(
+                    (appointment) =>
+                        appointment['time'] == time &&
+                        appointment['date'] ==
+                            selectedDate?.toIso8601String().substring(0, 10),
+                    orElse: () => <String, dynamic>{},
+                  );
                   return ListTile(
                     title: Text(
                         '${selectedDate?.toIso8601String().substring(0, 10)} ${availableTimes[index]}'),
+                    subtitle: appointment.isNotEmpty
+                        ? Text('Paciente: ${appointment['patientName']}')
+                        : null,
                     trailing: Icon(Icons.check_circle, color: Colors.green),
                     onTap: () async {
                       String time = availableTimes[index];
@@ -70,13 +82,10 @@ class _SchedulingPageState extends State<SchedulingPage> {
                                 selectedDate
                                     ?.toIso8601String()
                                     .substring(0, 10),
-                        orElse: () => <String,
-                            dynamic>{}, // Return an empty map instead of null
+                        orElse: () => <String, dynamic>{},
                       );
 
                       if (appointment.isNotEmpty) {
-                        // Check if the map is not empty
-                        // This time is already scheduled. Show the patient's name and do nothing else.
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
@@ -125,13 +134,16 @@ class _SchedulingPageState extends State<SchedulingPage> {
                                   Navigator.of(context).pop(patientName
                                       .isNotEmpty); // Confirm only if patient name is not empty
                                   if (patientName.isNotEmpty) {
-                                    scheduledAppointments.add({
-                                      'time': time,
-                                      'date': selectedDate
-                                          ?.toIso8601String()
-                                          .substring(0, 10),
-                                      'patientName': patientName,
-                                    });
+                                    setState(() {
+                                      // Add this
+                                      scheduledAppointments.add({
+                                        'time': time,
+                                        'date': selectedDate
+                                            ?.toIso8601String()
+                                            .substring(0, 10),
+                                        'patientName': patientName,
+                                      });
+                                    }); // And this
                                   }
                                 },
                               ),

@@ -97,6 +97,15 @@ class _SchedulingPageState extends State<SchedulingPage> {
                                 child: Text('OK'),
                                 onPressed: () => Navigator.of(context).pop(),
                               ),
+                              TextButton(
+                                child: Text('Desagendar'),
+                                onPressed: () {
+                                  setState(() {
+                                    scheduledAppointments.remove(appointment);
+                                  });
+                                  Navigator.of(context).pop();
+                                },
+                              ),
                             ],
                           ),
                         );
@@ -130,8 +139,8 @@ class _SchedulingPageState extends State<SchedulingPage> {
                                 child: Text('Confirmar'),
                                 onPressed: () {
                                   String patientName = _controller.text;
-                                  Navigator.of(context).pop(patientName
-                                      .isNotEmpty); 
+                                  Navigator.of(context)
+                                      .pop(patientName.isNotEmpty);
                                   if (patientName.isNotEmpty) {
                                     setState(() {
                                       scheduledAppointments.add({
@@ -141,7 +150,7 @@ class _SchedulingPageState extends State<SchedulingPage> {
                                             .substring(0, 10),
                                         'patientName': patientName,
                                       });
-                                    }); 
+                                    });
                                   }
                                 },
                               ),

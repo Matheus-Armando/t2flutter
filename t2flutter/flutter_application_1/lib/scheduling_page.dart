@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'patient_history_page.dart';
-import 'data/appointment_data.dart'; 
-import 'package:provider/provider.dart'; 
+import 'data/appointment_data.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class SchedulingPage extends StatefulWidget {
   @override
@@ -65,12 +66,12 @@ class _SchedulingPageState extends State<SchedulingPage> {
                     (appointment) =>
                         appointment['time'] == time &&
                         appointment['date'] ==
-                            selectedDate?.toIso8601String().substring(0, 10),
+                            DateFormat('yyyy-MM-dd').format(selectedDate!),
                     orElse: () => <String, dynamic>{},
                   );
                   return ListTile(
                     title: Text(
-                        '${selectedDate?.toIso8601String().substring(0, 10)} ${availableTimes[index]}'),
+                        '${DateFormat('dd/MM/yyyy').format(selectedDate!)} ${availableTimes[index]}'),
                     subtitle: appointment.isNotEmpty
                         ? Text('Paciente: ${appointment['patientName']}')
                         : null,

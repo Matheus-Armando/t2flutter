@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'data/appointment_data.dart';
+import 'package:intl/intl.dart';
 
 class PatientDescriptionData extends ChangeNotifier {
   Map<String, String> patientDescriptions = {};
@@ -75,8 +76,11 @@ class _PatientHistoryPageState extends State<PatientHistoryPage> {
                     'Informações: ${patientDescriptionData.patientDescriptions[patientName] ?? 'Nenhuma informação fornecida.'}'),
               ),
               ...appointmentsByPatient[patientName]!.map((appointment) {
+                DateTime date = DateTime.parse(appointment['date']);
+                String formattedDate = DateFormat('dd/MM/yyyy').format(date);
+
                 return ListTile(
-                  title: Text('Data: ${appointment['date']}'),
+                  title: Text('Data: $formattedDate'),
                   subtitle: Text('Horário: ${appointment['time']}'),
                 );
               }).toList(),

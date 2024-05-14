@@ -68,32 +68,37 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Perfil do Médico'),
-        backgroundColor: Colors.blueGrey,
       ),
       body: userInfo == null 
         ? Center(child: CircularProgressIndicator()) 
-        : Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Olá, ${userInfo!.username}, bem vindo ao seu perfil!',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey,
+        : Container(
+            width: MediaQuery.of(context).size.width * 1.0, // 70% da largura da tela
+            height: MediaQuery.of(context).size.height * 1.0, // 70% da altura da tela
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Olá, ${userInfo!.username}, bem vindo ao seu perfil!',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(height: 20),
-                Text('Nome: ${userInfo!.username}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                SizedBox(height: 10),
-                Text('Email: ${userInfo!.email}', style: TextStyle(fontSize: 18)),
-                SizedBox(height: 10),
-                Text('Especialidade: ${userInfo!.specialty}', style: TextStyle(fontSize: 18)),
-                SizedBox(height: 10),
-                Text('Descrição: ${userInfo!.description}', style: TextStyle(fontSize: 18)),
-              ],
+                  SizedBox(height: 5),
+                  Text('Nome: ${userInfo!.username}', style: TextStyle(fontSize: 18)),
+                  Divider(thickness: 0.5),
+                  SizedBox(height: 5),
+                  Text('Email: ${userInfo!.email}', style: TextStyle(fontSize: 18)),
+                  Divider(thickness: 0.5),
+                  SizedBox(height: 5),
+                  Text('Especialidade: ${userInfo!.specialty}', style: TextStyle(fontSize: 18)),
+                  Divider(thickness: 0.5),
+                  SizedBox(height: 5),
+                  Text('Descrição: ${userInfo!.description}', style: TextStyle(fontSize: 18)),
+                ],
+              ),
             ),
           ),
     );

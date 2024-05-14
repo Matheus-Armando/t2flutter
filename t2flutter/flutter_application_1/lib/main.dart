@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'login_page.dart';
 import 'home_page.dart';
 import 'scheduling_page.dart';
 import 'patient_history_page.dart';
 import 'doctor_profile_page.dart';
+import 'appointment_data.dart'; // Importe o arquivo appointment_data.dart
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppointmentData(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -23,16 +30,24 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       initialRoute: '/login',
-      routes: {
-        '/': (context) => HomePage(),
-        '/login': (context) => LoginPage(),
-        '/scheduling': (context) => SchedulingPage(),
-        '/history': (context) => PatientHistoryPage(),
-        '/profile': (context) => DoctorProfilePage(),
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case '/':
+            return MaterialPageRoute(builder: (context) => HomePage());
+          case '/login':
+            return MaterialPageRoute(builder: (context) => LoginPage());
+          case '/scheduling':
+            return MaterialPageRoute(builder: (context) => SchedulingPage());
+          case '/history':
+            // Não passe scheduledAppointments para PatientHistoryPage aqui
+            return MaterialPageRoute(
+                builder: (context) => PatientHistoryPage());
+          case '/profile':
+            return MaterialPageRoute(builder: (context) => DoctorProfilePage());
+          default:
+            return MaterialPageRoute(builder: (context) => LoginPage());
+        }
       },
     );
   }
 }
-
-
-

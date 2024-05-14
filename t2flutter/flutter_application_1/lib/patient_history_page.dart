@@ -47,6 +47,8 @@ class _PatientHistoryPageState extends State<PatientHistoryPage> {
     );
   }
 
+  TextEditingController filterController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     var appointmentData = Provider.of<AppointmentData>(context);
@@ -60,37 +62,63 @@ class _PatientHistoryPageState extends State<PatientHistoryPage> {
       appointmentsByPatient[appointment['patientName']]!.add(appointment);
     }
 
+    // Filtrar os nomes dos pacientes
+    String filter = filterController.text;
+    var filteredPatientNames = appointmentsByPatient.keys.where((patientName) {
+      return patientName.toLowerCase().contains(filter.toLowerCase());
+    }).toList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Histórico de Consultas'),
       ),
-      body: ListView.builder(
-        itemCount: appointmentsByPatient.keys.length,
-        itemBuilder: (context, index) {
-          String patientName = appointmentsByPatient.keys.elementAt(index);
-          return ExpansionTile(
-            title: Text('Nome do Paciente: $patientName'),
-            children: [
-              ListTile(
-                title: Text(
-                    'Informações: ${patientDescriptionData.patientDescriptions[patientName] ?? 'Nenhuma informação fornecida.'}'),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: filterController,
+              decoration: InputDecoration(
+                labelText: 'Filtrar por nome do paciente',
               ),
-              ...appointmentsByPatient[patientName]!.map((appointment) {
-                DateTime date = DateTime.parse(appointment['date']);
-                String formattedDate = DateFormat('dd/MM/yyyy').format(date);
+              onChanged: (value) {
+                setState(() {}); // Reconstruir o widget quando o filtro mudar
+              },
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: filteredPatientNames.length,
+              itemBuilder: (context, index) {
+                String patientName = filteredPatientNames[index];
+                return ExpansionTile(
+                  title: Text(patientName),
+                  children: [
+                    ListTile(
+                      title: Text(
+                          'Informações: ${patientDescriptionData.patientDescriptions[patientName] ?? 'Nenhuma informação fornecida.'}'),
+                    ),
+                    ...appointmentsByPatient[patientName]!.map((appointment) {
+                      DateTime date = DateTime.parse(appointment['date']);
+                      String formattedDate =
+                          DateFormat('dd/MM/yyyy').format(date);
 
-                return ListTile(
-                  title: Text('Data: $formattedDate'),
-                  subtitle: Text('Horário: ${appointment['time']}'),
+                      return ListTile(
+                        title: Text('Data: $formattedDate'),
+                        subtitle: Text('Horário: ${appointment['time']}'),
+                      );
+                    }).toList(),
+                    TextButton(
+                      onPressed: () => showDescriptionDialog(patientName),
+                      child: Text(
+                          'Adicionar/alterar informações sobre o paciente'),
+                    ),
+                  ],
                 );
-              }).toList(),
-              TextButton(
-                onPressed: () => showDescriptionDialog(patientName),
-                child: Text('Adicionar/alterar informações sobre o paciente'),
-              ),
-            ],
-          );
-        },
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

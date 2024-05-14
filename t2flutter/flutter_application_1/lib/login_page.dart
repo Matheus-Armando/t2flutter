@@ -22,20 +22,13 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
         automaticallyImplyLeading: false,
       ),
-      body: Row(
-        children: [
-          Expanded(
-            flex: 7,
-            child: Container(
-              child: Image.asset('images/doctor.jpg'),
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Form(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Form(
               key: _formKey,
               child: Column(
                 children: <Widget>[
@@ -47,48 +40,53 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  TextFormField(
-                    controller: _usernameController,
-                    decoration: InputDecoration(
-                      labelText: 'Usuário',
-                      border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.all(10),
+                  Container(
+                    width: 300,
+                    child: TextFormField(
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        labelText: 'Usuário',
+                        border: OutlineInputBorder(),
+                        contentPadding: EdgeInsets.all(10),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'O campo usuário não pode estar vazio';
+                        }
+                        if (value != 'Matheus' && value != 'Roger') {
+                          return 'Usuário inválido';
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'O campo usuário não pode estar vazio';
-                      }
-                      if (value != 'matheus' && value != 'roger') {
-                        return 'Usuário inválido';
-                      }
-                      return null;
-                    },
                   ),
                   SizedBox(height: 10),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Senha',
-                      border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.all(10),
-                    ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'A senha não pode estar vazia';
-                      }
-                      if (value != '123') {
-                        return 'Senha inválida';
-                      }
-                      return null;
-                    },
-                  ),
+                  Container(
+                      width: 300,
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Senha',
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.all(10),
+                        ),
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'A senha não pode estar vazia';
+                          }
+                          if (value != '123') {
+                            return 'Senha inválida';
+                          }
+                          return null;
+                        },
+                      )),
                   SizedBox(height: 20),
                   Container(
-                    width: 200, // Define a largura do botão
+                    width: 200,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize:
-                            Size(200, 50), // Define o tamanho mínimo do botão
+                            Size(200, 50), 
                       ),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
@@ -105,8 +103,15 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-          ),
-        ],
+            SizedBox(height: 20),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: 300, 
+              ),
+              child: Image.asset('images/login.jpg'),
+            ),
+          ],
+        ),
       ),
     );
   }

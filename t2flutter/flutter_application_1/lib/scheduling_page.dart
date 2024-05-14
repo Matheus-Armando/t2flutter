@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'patient_history_page.dart';
+import 'appointment_data.dart'; // Importe o arquivo appointment_data.dart
+import 'package:provider/provider.dart'; // Importe o pacote provider
 
 class SchedulingPage extends StatefulWidget {
   @override
@@ -19,10 +22,10 @@ class _SchedulingPageState extends State<SchedulingPage> {
   ];
   DateTime? selectedDate;
   String? patientName;
-  List<Map<String, dynamic>> scheduledAppointments = [];
 
   @override
   Widget build(BuildContext context) {
+    var appointmentData = Provider.of<AppointmentData>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Agendamento de Consultas'),
@@ -58,7 +61,8 @@ class _SchedulingPageState extends State<SchedulingPage> {
                 itemBuilder: (context, index) {
                   String time = availableTimes[index];
                   Map<String, dynamic> appointment =
-                      scheduledAppointments.firstWhere(
+                      appointmentData.scheduledAppointments.firstWhere(
+                    // Use appointmentData.scheduledAppointments
                     (appointment) =>
                         appointment['time'] == time &&
                         appointment['date'] ==
@@ -75,7 +79,7 @@ class _SchedulingPageState extends State<SchedulingPage> {
                     onTap: () async {
                       String time = availableTimes[index];
                       Map<String, dynamic> appointment =
-                          scheduledAppointments.firstWhere(
+                          appointmentData.scheduledAppointments.firstWhere(
                         (appointment) =>
                             appointment['time'] == time &&
                             appointment['date'] ==
@@ -97,11 +101,20 @@ class _SchedulingPageState extends State<SchedulingPage> {
                                 child: Text('OK'),
                                 onPressed: () => Navigator.of(context).pop(),
                               ),
+                              TextButton(
+                                child: Text('Desagendar'),
+                                onPressed: () {
+                                  setState(() {
+                                    appointmentData
+                                        .removeAppointment(appointment);
+                                  });
+                                  Navigator.of(context).pop();
+                                },
+                              ),
                             ],
                           ),
                         );
                       } else {
-                        // This time is not scheduled yet. Show the scheduling dialog.
                         TextEditingController _controller =
                             TextEditingController();
                         bool confirm = await showDialog(
@@ -131,20 +144,19 @@ class _SchedulingPageState extends State<SchedulingPage> {
                                 child: Text('Confirmar'),
                                 onPressed: () {
                                   String patientName = _controller.text;
-                                  Navigator.of(context).pop(patientName
-                                      .isNotEmpty); // Confirm only if patient name is not empty
                                   if (patientName.isNotEmpty) {
                                     setState(() {
-                                      // Add this
-                                      scheduledAppointments.add({
+                                      appointmentData.addAppointment({
                                         'time': time,
                                         'date': selectedDate
                                             ?.toIso8601String()
                                             .substring(0, 10),
                                         'patientName': patientName,
                                       });
-                                    }); // And this
+                                    });
                                   }
+                                  Navigator.of(context)
+                                      .pop(patientName.isNotEmpty);
                                 },
                               ),
                             ],

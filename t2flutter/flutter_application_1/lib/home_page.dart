@@ -28,16 +28,28 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Home Page'),
         automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {
+              Navigator.pushNamed(context, '/login');
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
           Padding(
             padding: EdgeInsets.all(20),
-            child: Text(
-              'Olá, $username',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+            child: RichText(
+              text: TextSpan(
+                style: DefaultTextStyle.of(context).style.copyWith(decoration: TextDecoration.none),
+                children: <TextSpan>[
+                  TextSpan(text: 'Olá, ', style: TextStyle(color: Colors.black)),
+                  TextSpan(
+                      text: '$username',
+                      style: TextStyle(color: Colors.purple.shade400), ),
+                ],
               ),
             ),
           ),
@@ -63,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                       child: Text('Agendamento de Consultas'),
                     ),
                   ),
-                  SizedBox(height: 20), // Adiciona espaço entre os botões
+                  SizedBox(height: 20),
                   Container(
                     width: 300,
                     child: ElevatedButton(
@@ -76,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                       child: Text('Histórico de Pacientes'),
                     ),
                   ),
-                  SizedBox(height: 20), // Adiciona espaço entre os botões
+                  SizedBox(height: 20),
                   Container(
                     width: 300,
                     child: ElevatedButton(

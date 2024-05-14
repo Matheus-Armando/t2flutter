@@ -54,8 +54,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Container(
-            height: 400,
-            width: 400,
+            height: 300,
+            width: 300,
             child: Image.asset('images/home.jpg', fit: BoxFit.cover),
           ),
           Expanded(

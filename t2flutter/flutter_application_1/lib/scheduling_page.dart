@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'patient_history_page.dart';
-import 'appointment_data.dart'; // Importe o arquivo appointment_data.dart
-import 'package:provider/provider.dart'; // Importe o pacote provider
+import 'data/appointment_data.dart'; 
+import 'package:provider/provider.dart'; 
 
 class SchedulingPage extends StatefulWidget {
   @override
@@ -62,7 +62,6 @@ class _SchedulingPageState extends State<SchedulingPage> {
                   String time = availableTimes[index];
                   Map<String, dynamic> appointment =
                       appointmentData.scheduledAppointments.firstWhere(
-                    // Use appointmentData.scheduledAppointments
                     (appointment) =>
                         appointment['time'] == time &&
                         appointment['date'] ==

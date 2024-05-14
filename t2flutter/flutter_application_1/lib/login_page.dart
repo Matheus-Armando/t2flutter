@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                         if (value == null || value.isEmpty) {
                           return 'O campo usuário não pode estar vazio';
                         }
-                        if (value != 'matheus' && value != 'roger') {
+                        if (value != 'Matheus' && value != 'Roger') {
                           return 'Usuário inválido';
                         }
                         return null;

@@ -28,28 +28,28 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
   User? userInfo;
 
   Map<String, String> userEmails = {
-    'matheus': 'matheus@exemplo.com',
-    'roger': 'roger@exemplo.com',
+    'Matheus': 'matheus@exemplo.com',
+    'Roger': 'roger@exemplo.com',
   };
 
   Map<String, String> userSpecialties = {
-    'matheus': 'Cardiologista',
-    'roger': 'Neurologista',
+    'Matheus': 'Cardiologista',
+    'Roger': 'Neurologista',
   };
 
   Map<String, String> userDescriptions = {
-    'matheus':
+    'Matheus':
         'Dr. Matheus é um cardiologista com mais de 10 anos de experiência.',
-    'roger':
+    'Roger':
         'Dr. Roger é um neurologista renomado com vasta experiência em seu campo.',
   };
 
   Future<User> getUserInfo(String username) async {
-    String email = userEmails[username.toLowerCase()] ?? 'unknown@exemplo.com';
+    String email = userEmails[username] ?? 'unknown@exemplo.com';
     String specialty =
-        userSpecialties[username.toLowerCase()] ?? 'Desconhecida';
+        userSpecialties[username] ?? 'Desconhecida';
     String description =
-        userDescriptions[username.toLowerCase()] ?? 'Descrição não disponível';
+        userDescriptions[username] ?? 'Descrição não disponível';
     return Future.delayed(
         Duration(seconds: 1),
         () => User(
